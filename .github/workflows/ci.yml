@@ -23,6 +23,10 @@ jobs:
             pids+=($!)
           }
 
+          run_command "echo 'TEST STATIC'"
+
+          run_command "echo 'TEST $NX_BASE and $NX_HEAD'"
+
           for pid in "${pids[@]}"; do
             wait "$pid"
           done
