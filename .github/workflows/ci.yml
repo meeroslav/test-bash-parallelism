@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches:
+      # Change this if your primary branch is not main
+      - main
+  pull_request:
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "TEST ONE"
+      - run: echo "NX_BASE=first" >> $GITHUB_ENV
+      - run: echo "NX_HEAD=second" >> $GITHUB_ENV
+      - run: echo "Collected $NX_BASE and $NX_HEAD"
+      - run: |
+          pids=()
+
+          function run_command() {
+            local command=$1
+            $command &
+            pids+=($!)
+          }
+
+          for pid in "${pids[@]}"; do
+            wait "$pid"
+          done
