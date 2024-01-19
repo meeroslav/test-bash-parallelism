@@ -14,7 +14,8 @@ jobs:
       - run: echo "NX_BASE=first" >> $GITHUB_ENV
       - run: echo "NX_HEAD=second" >> $GITHUB_ENV
       - run: echo "Collected $NX_BASE and $NX_HEAD"
-      - run: |
+      - name: Test parallel commands
+        run: |
           pids=()
 
           function run_command() {
@@ -26,6 +27,8 @@ jobs:
           run_command "echo 'TEST STATIC'"
 
           run_command "echo 'TEST $NX_BASE and $NX_HEAD'"
+
+          run_command "(echo 'TEST $NX_BASE') && (echo 'TEST $NX_HEAD')"
 
           for pid in "${pids[@]}"; do
             wait "$pid"
